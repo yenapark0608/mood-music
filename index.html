@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>기분에 따른 노래추천 - MOOD</title>
+  
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="MOOD - 기분에 따른 노래추천">
+  <meta property="og:description" content="오늘 당신의 기분에 딱 맞는 K-pop과 인디 음악을 추천해드립니다.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800">
+
+  <style>
+    :root {
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --primary-color: #8a70d6;
+      --primary-hover: #7353c8;
+      --accent-lavender: #ece7f8;
+      --text-main: #333333;
+      --text-sub: #666666;
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 8px 24px rgba(138, 112, 214, 0.12);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      padding: 36px 28px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--primary-color);
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    header p.sub-title {
+      font-size: 0.98rem;
+      color: var(--text-sub);
+      margin-bottom: 28px;
+      line-height: 1.4;
+    }
+
+    .question {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #444;
+    }
+
+    .mood-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .mood-btn {
+      background-color: #faf9fe;
+      border: 2px solid var(--accent-lavender);
+      border-radius: 14px;
+      padding: 20px 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mood-btn:hover {
+      background-color: var(--accent-lavender);
+    }
+
+    .mood-btn .emoji { font-size: 2rem; }
+    .mood-btn .label { font-size: 0.95rem; font-weight: 600; color: var(--text-main); }
+
+    .music-card {
+      display: none;
+      background: #ffffff;
+      border: 1px solid var(--accent-lavender);
+      border-radius: var(--radius);
+      padding: 28px 20px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .song-title { font-size: 1.4rem; font-weight: 700; color: #222; margin-bottom: 6px; }
+    .artist-name { font-size: 1.05rem; font-weight: 500; color: var(--primary-color); margin-bottom: 18px; }
+
+    .meta-tags {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      background-color: var(--accent-lavender);
+      color: var(--primary-color);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.98rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .btn-youtube { background-color: #FF0000; color: #ffffff; }
+    .btn-retry { background-color: var(--primary-color); color: #ffffff; }
+    .btn-back { background-color: #f0f0f0; color: #555555; }
+
+    .share-section {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px dashed #e0e0e0;
+    }
+
+    .btn-share { background-color: #FEE500; color: #191919; }
+
+    @media (max-width: 480px) {
+      .container { padding: 28px 18px; }
+      .mood-grid { grid-template-columns: 1fr; }
+      .mood-btn { flex-direction: row; justify-content: center; padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>MOOD</h1>
+      <p class="sub-title">오늘의 기분에 맞는 음악을 찾아보세요.</p>
+    </header>
+
+    <main id="selection-screen">
+      <p class="question">지금 어떤 기분인가요?</p>
+      <div class="mood-grid">
+        <button class="mood-btn" onclick="selectMood('tired')">
+          <span class="emoji">&#127807;</span>
+          <span class="label">지치고 피곤해요</span>
+        </button>
+        <button class="mood-btn" onclick="selectMood('annoyed')">
+          <span class="emoji">&#9889;</span>
+          <span class="label">답답하고 짜증 나요</span>
+        </button>
+        <button class="mood-btn" onclick="selectMood('down')">
+          <span class="emoji">&#9729;&#65039;</span>
+          <span class="label">기분이 가라앉아요</span>
+        </button>
+        <button class="mood-btn" onclick="selectMood('relaxed')">
+          <span class="emoji">&#9728;&#65039;</span>
+          <span class="label">기분 좋게 쉬고 싶어요</span>
+        </button>
+      </div>
+    </main>
+
+    <main id="result-screen" style="display: none;">
+      <div class="music-card" id="music-card">
+        <h2 class="song-title" id="song-title">곡 제목</h2>
+        <p class="artist-name" id="artist-name">가수 이름</p>
+        <div class="meta-tags">
+          <span class="tag" id="song-genre">장르</span>
+          <span class="tag" id="song-vibe">분위기</span>
+        </div>
+        <a id="youtube-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-youtube">
+          ▶ 유튜브 공식 영상 보기
+        </a>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-retry" onclick="recommendNextSong()">다른 노래 추천받기</button>
+        <button class="btn btn-back" onclick="resetMood()">기분 다시 선택하기</button>
+      </div>
+    </main>
+
+    <footer class="share-section">
+      <button class="btn btn-share" onclick="shareWebsite()">
+        💬 카카오톡으로 공유하기
+      </button>
+    </footer>
+  </div>
+
+  <script>
+    window.onload = function() {
+      var musicData = {
+        tired: [
+          { title: "밤편지", artist: "아이유", genre: "발라드 / K-pop", vibe: "잔잔하고 편안함", url: "https://www.youtube.com/watch?v=BzYnNdJhptw" },
+          { title: "어떻게 이별까지 사랑하겠어, 널 사랑하는 거지", artist: "AKMU", genre: "발라드 / K-pop", vibe: "서정적이고 아련함", url: "https://www.youtube.com/watch?v=mAKsZ2XMDXY" },
+          { title: "seasons", artist: "wave to earth", genre: "인디 록 / 팝", vibe: "포근하고 차분함", url: "https://www.youtube.com/watch?v=CnVVjLOGVoY" },
+          { title: "주저하는 연인들을 위해", artist: "잔나비", genre: "인디 록 / 레트로",
