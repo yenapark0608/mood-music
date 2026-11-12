@@ -49,7 +49,7 @@
       <div class="title" id="sTitle"></div>
       <div class="artist" id="sArtist"></div>
       <div class="tags"><span class="tag" id="sGenre"></span><span class="tag" id="sVibe"></span></div>
-      <a id="sYt" href="#" target="_blank" rel="noopener noreferrer" class="btn yt">▶ 유튜브 영상 바로 재생</a>
+      <a id="sYt" href="#" target="_blank" rel="noopener noreferrer" class="btn yt">▶ 유튜브에서 바로 듣기</a>
     </div>
     <div class="btns">
       <button type="button" class="btn retry" onclick="nextSong()">다른 노래 추천받기</button>
@@ -61,37 +61,43 @@
 <script>
 var db={
   tired:[
-    {t:"밤편지",a:"아이유",g:"발라드 / K-pop",v:"잔잔하고 편안함",u:"https://youtu.be/BzYnNdJhptw"},
-    {t:"어떻게 이별까지 사랑하겠어, 널 사랑하는 거지",a:"AKMU",g:"발라드 / K-pop",v:"서정적이고 아련함",u:"https://youtu.be/mAKsZ2XMDXY"},
-    {t:"seasons",a:"wave to earth",g:"인디 록 / 팝",v:"포근하고 차분함",u:"https://youtu.be/CnVVjLOGVoY"},
-    {t:"주저하는 연인들을 위해",a:"잔나비",g:"인디 록 / 레트로",v:"감성적이고 따뜻함",u:"https://youtu.be/5g4qyTBfC3M"},
-    {t:"서랍",a:"10CM",g:"인디 발라드",v:"잔잔한 휴식",u:"https://youtu.be/o3p86P1yH6M"}
+    {t:"밤편지",a:"아이유",g:"발라드 / K-pop",v:"잔잔하고 편안함"},
+    {t:"어떻게 이별까지 사랑하겠어, 널 사랑하는 거지",a:"AKMU",g:"발라드 / K-pop",v:"서정적이고 아련함"},
+    {t:"seasons",a:"wave to earth",g:"인디 록 / 팝",v:"포근하고 차분함"},
+    {t:"주저하는 연인들을 위해",a:"잔나비",g:"인디 록 / 레트로",v:"감성적이고 따뜻함"},
+    {t:"서랍",a:"10CM",g:"인디 발라드",v:"잔잔한 휴식"}
   ],
   annoyed:[
-    {t:"아주 NICE",a:"세븐틴",g:"댄스 / K-pop",v:"신나고 에너지 넘침",u:"https://youtu.be/J-wFp43XOrA"},
-    {t:"After LIKE",a:"IVE",g:"댄스 / K-pop",v:"청량하고 경쾌함",u:"https://youtu.be/F0B7HDiY-mc"},
-    {t:"한 페이지가 될 수 있게",a:"DAY6",g:"K-pop 록",v:"질주감 있고 시원함",u:"https://youtu.be/vnS_ns343Sc"},
-    {t:"파이팅 해야지",a:"부석순 (SEVENTEEN)",g:"댄스 / K-pop",v:"파이팅 넘치는 활력",u:"https://youtu.be/mBXBOLG06Wc"},
-    {t:"고민중독",a:"QWER",g:"밴드 / K-pop",v:"스피디하고 유쾌함",u:"https://youtu.be/ImuWa3SJulY"}
+    {t:"아주 NICE",a:"세븐틴",g:"댄스 / K-pop",v:"신나고 에너지 넘침"},
+    {t:"After LIKE",a:"IVE",g:"댄스 / K-pop",v:"청량하고 경쾌함"},
+    {t:"한 페이지가 될 수 있게",a:"DAY6",g:"K-pop 록",v:"질주감 있고 시원함"},
+    {t:"파이팅 해야지",a:"부석순",g:"댄스 / K-pop",v:"파이팅 넘치는 활력"},
+    {t:"고민중독",a:"QWER",g:"밴드 / K-pop",v:"스피디하고 유쾌함"}
   ],
   down:[
-    {t:"예뻤어",a:"DAY6",g:"K-pop 록",v:"감성적이고 따뜻함",u:"https://youtu.be/BS7tz2rAQUA"},
-    {t:"한숨",a:"이하이",g:"발라드 / K-pop",v:"깊은 위로와 울림",u:"https://youtu.be/5iS3An25_m8"},
-    {t:"yours",a:"데이먼스 이어",g:"인디 팝",v:"몽환적이고 아늑함",u:"https://youtu.be/9j8C2q8bQ0U"},
-    {t:"나무",a:"카더가든",g:"인디 발라드",v:"차분하고 편안함",u:"https://youtu.be/cHkDZ1ekB9U"},
-    {t:"bad",a:"wave to earth",g:"인디 R&B",v:"감각적이고 서정적",u:"https://youtu.be/6Q5xqNkCk7w"}
+    {t:"예뻤어",a:"DAY6",g:"K-pop 록",v:"감성적이고 따뜻함"},
+    {t:"한숨",a:"이하이",g:"발라드 / K-pop",v:"깊은 위로와 울림"},
+    {t:"yours",a:"데이먼스 이어",g:"인디 팝",v:"몽환적이고 아늑함"},
+    {t:"나무",a:"카더가든",g:"인디 발라드",v:"차분하고 편안함"},
+    {t:"bad",a:"wave to earth",g:"인디 R&B",v:"감각적이고 서정적"}
   ],
   relaxed:[
-    {t:"Super Shy",a:"NewJeans",g:"댄스 / K-pop",v:"밝고 트렌디함",u:"https://youtu.be/ArmDp-zijuc"},
-    {t:"Power Up",a:"Red Velvet",g:"댄스 / K-pop",v:"상큼하고 쾌활함",u:"https://youtu.be/aiHSVQyQ118"},
-    {t:"여행",a:"볼빨간사춘기",g:"인디 팝",v:"설레고 자유로움",u:"https://youtu.be/xRbPAVnqtcs"},
-    {t:"옥탑방",a:"엔플라잉",g:"K-pop 록",v:"기분 좋은 서정성",u:"https://youtu.be/VpaUxC2e1K0"},
-    {t:"NO PAIN",a:"실리카겔",g:"인디 록",v:"세련되고 청량함",u:"https://youtu.be/JaIMWMgj63k"}
+    {t:"Super Shy",a:"NewJeans",g:"댄스 / K-pop",v:"밝고 트렌디함"},
+    {t:"Power Up",a:"Red Velvet",g:"댄스 / K-pop",v:"상큼하고 쾌활함"},
+    {t:"여행",a:"볼빨간사춘기",g:"인디 팝",v:"설레고 자유로움"},
+    {t:"옥탑방",a:"엔플라잉",g:"K-pop 록",v:"기분 좋은 서정성"},
+    {t:"NO PAIN",a:"실리카겔",g:"인디 록",v:"세련되고 청량함"}
   ]
 };
 var cur="",list=[];
 function shuf(a){var r=a.slice();for(var i=r.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var x=r[i];r[i]=r[j];r[j]=x}return r}
-function render(s){document.getElementById("sTitle").textContent=s.t;document.getElementById("sArtist").textContent=s.a;document.getElementById("sGenre").textContent=s.g;document.getElementById("sVibe").textContent=s.v;document.getElementById("sYt").href=s.u}
+function render(s){
+  document.getElementById("sTitle").textContent=s.t;
+  document.getElementById("sArtist").textContent=s.a;
+  document.getElementById("sGenre").textContent=s.g;
+  document.getElementById("sVibe").textContent=s.v;
+  document.getElementById("sYt").href="https://www.youtube.com/results?search_query="+encodeURIComponent(s.a+" "+s.t);
+}
 function pick(m){cur=m;list=shuf(db[m]);document.getElementById("step1").style.display="none";document.getElementById("step2").style.display="block";render(list.pop())}
 function nextSong(){if(!list.length)list=shuf(db[cur]);render(list.pop())}
 function goBack(){document.getElementById("step2").style.display="none";document.getElementById("step1").style.display="block"}
